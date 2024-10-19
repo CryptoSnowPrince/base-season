@@ -7,7 +7,7 @@
 const hre = require("hardhat");
 // const hreconfig = require("@nomicsfoundation/hardhat-config")
 // const fs = require("fs");
-const addresses = require("../../deployed/votes.json");
+const addresses = require("../deployed/votes.json");
 
 async function main() {
     try {
@@ -34,8 +34,8 @@ async function main() {
         const votes = await Votes.attach(addresses[network].TransparentUpgradeableProxy); // Votes
 
         let tx;
-        // tx = await votes.setDead("0xDDca8B4f8B0783eDdBe021E3a7871BCA65A5E593");
-        // await tx.wait();
+        tx = await votes.setDead("0x000000000000000000000000000000000000dEaD");
+        await tx.wait();
 
         console.log('config OK')
     } catch (error) {

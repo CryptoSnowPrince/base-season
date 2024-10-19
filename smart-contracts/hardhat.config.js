@@ -22,10 +22,10 @@ module.exports = {
       {
         version: '0.8.17',
         settings: {
-          viaIR: true,
+          // viaIR: true,
           optimizer: {
             enabled: true,
-            runs: 2000,
+            runs: 200,
           },
         },
       },
@@ -46,7 +46,7 @@ module.exports = {
       // },
     ]
   },
-  defaultNetwork: "base",
+  defaultNetwork: "baseSepolia",
   networks: {
     baseSepolia: {
       url: config.RPC_BASE_SEPOLIA,

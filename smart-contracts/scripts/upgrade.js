@@ -7,7 +7,7 @@
 const hre = require("hardhat");
 // const hreconfig = require("@nomicsfoundation/hardhat-config")
 const fs = require("fs");
-const addresses = require("../../deployed/votes.json");
+const addresses = require("../deployed/votes.json");
 
 async function main() {
   try {

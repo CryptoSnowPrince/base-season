@@ -9,7 +9,7 @@ const hre = require("hardhat");
 const fs = require("fs");
 let addresses = {}
 try {
-    addresses = require("../../deployed/votes.json");
+    addresses = require("../deployed/votes.json");
 } catch (error) {
 
 }
