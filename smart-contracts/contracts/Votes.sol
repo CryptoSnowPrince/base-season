@@ -108,13 +108,11 @@ contract Votes is
             "Vote has been ended already"
         );
 
+        uint256 startIdx = votes[voteId].startItemIdx;
         uint256 endIdx = votes[voteId].startItemIdx + votes[voteId].cntItems;
         for (uint256 i = 0; i < itemIds.length; i++) {
-            require(
-                itemIds[i] >= votes[voteId].startItemIdx,
-                "Invalid Item Id"
-            );
-            require(itemIds[i] < endItemIdx, "Invalid Item Id");
+            require(itemIds[i] >= startIdx, "Invalid Item Id");
+            require(itemIds[i] < endIdx, "Invalid Item Id");
             require(
                 powers[i] > votes[voteId].minPower,
                 "Voting power should be greater than minimum power"
