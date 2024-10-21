@@ -1,16 +1,682 @@
-html,
+/* Existing styles and new styles */
+@font-face {
+  font-family: 'CoinbaseSans';
+  src: url('../assets/Coinbase_Sans-Bold-web-1.32.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 body {
-  padding: 0;
+  font-family: 'CoinbaseSans', sans-serif;
+  background-color: #e0e0e0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  padding: 0;
+  overflow: hidden;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  z-index: 2;
 }
 
-* {
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 40px;
+  z-index: 3;
+}
+
+h1 {
+  font-size: 4rem;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 3rem;
+    margin-top: -20px;
+  }
+}
+
+.mint-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  z-index: 3;
+}
+
+.canvas-preview {
+  border: 2px solid #000;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+.text-input {
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'CoinbaseSans', sans-serif;
+}
+
+.mint-button {
+  background-color: #f0f0f0;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid #000;
+  border-radius: 10px;
+  font-family: 'CoinbaseSans', sans-serif;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-boxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .timer-boxes {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: -15px;
+  }
+}
+
+.timer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #f0f0f0;
+  border: 2px solid black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  min-width: 70px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .time {
+    font-size: 1.5rem;
+    padding: 4px 10px;
+  }
+}
+
+.label {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.nft-wall-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.nft-wall {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 10 columns */
+  grid-template-rows: repeat(10, 1fr);    /* 10 rows */
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+  opacity: 0.5;
+}
+
+.center-box-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.text-wrapper {
+  background-color: white;
+  padding: 70px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  border: 4px solid black;
+  position: relative;
+  z-index: 3;
+}
+
+@media (max-width: 600px) {
+  .text-wrapper {
+    padding: 30px;
+  }
+}
+
+.nft-wall-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  overflow: auto;
+}
+
+.nft-item {
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
+}
+
+.nft-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nft-item.selected {
+  border: 2px solid blue;
+}
+
+.nft-item.minted {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.nft-item.unfilled {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'CoinbaseSans', sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.placeholder-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.white-background {
+  background-color: white;
+  color: #0052FF;
+}
+
+.blue-background {
+  background-color: #0052FF;
+  color: white;
+}
+
+.nft-item.unfilled:hover .white-background {
+  background-color: #0052FF;
+  color: white;
+}
+
+.nft-item.unfilled:hover .blue-background {
+  background-color: white;
+  color: #0052FF;
+}
+
+.greyed-out-button {
+  background-color: #d3d3d3;
+  color: #707070;
+  cursor: not-allowed;
+  border: 2px solid black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-family: 'CoinbaseSans', sans-serif;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .greyed-out-button {
+    font-size: 1rem;
+    padding: 8px 15px;
+    margin-top: -8px;
+  }
+}
+
+/* Event status text */
+.event-status {
+  font-size: 1.2rem; /* Smaller size for voting status */
+  font-weight: bold;
+  text-align: center;
+  margin-top: 5px; /* Adjust margin for spacing */
+  opacity: 1; /* Fully visible */
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+}
+
+.event-status.live {
+  color: red; /* Voting live color */
+}
+
+.event-status.winner {
+  color: green; /* Winner color */
+}
+
+.fading-dot {
+  display: inline-block;
+  animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Carousel section */
+.event-previews {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+}
+
+.event-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 1; /* Fully visible */
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+}
+
+.event-preview.fade-out {
+  opacity: 0; /* Fade out */
+}
+
+.event-preview.fade-in {
+  opacity: 1; /* Fade in */
+}
+
+.fade-transition {
+  animation: fadeInOut 0.5s ease-in-out;
+}
+
+.event-image {
+  width: 280px;
+  height: 280px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  border: 2px solid black;
+  transition: transform 0.3s ease;
+}
+
+.event-image:hover {
+  transform: scale(1.05);
+}
+
+.event-title {
+  font-size: 1.5rem; /* Adjusted font size */
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.running-now {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: red;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .event-previews {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .event-image {
+    width: 180px;
+    height: 180px;
+  }
+
+  .event-title {
+    font-size: 1rem; /* Adjusted font size for smaller screens */
+  }
+
+  .running-now {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: red;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+/* Carousel button styles */
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.carousel-controls button {
+  background-color: #0052FF;
+  color: white;
+  font-family: 'CoinbaseSans', sans-serif;
+  border: 3px solid black;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.carousel-controls button:hover {
+  background-color: #003fbb;
+  transform: scale(1.05);
+}
+
+/* Button press effect */
+.carousel-controls button:active {
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
+
+/* Modal styles with smooth fade-in and fade-out animations */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  opacity: 0;
+  animation: fadeIn 0.4s forwards;
+}
+
+.modal-overlay.fade-out {
+  animation: fadeOut 0.4s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.modal-content {
+  position: relative;
+  width: 60%;
+  max-width: 700px;
+  border-radius: 10px;
+  border: 4px solid black;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: modalZoomIn 0.4s forwards;
+}
+
+.modal-content.fade-out {
+  animation: modalZoomOut 0.4s forwards;
+}
+
+@keyframes modalZoomIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modalZoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.modal-inner-content {
+  position: relative;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px; /* Initial size */
+  font-weight: bold; /* Make it bold */
+  cursor: pointer;
+  transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+.close-button:hover {
+  transform: scale(1.2); /* Scale up on hover */
+  font-weight: bolder; /* Make it even bolder on hover */
+}
+
+.project-list {
+  margin: 20px 0;
+}
+
+.project-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.project-name-button {
+  background-color: #0052FF;
+  color: white;
+  font-family: 'CoinbaseSans', sans-serif;
+  border: 3px solid black;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 20px;
+  text-align: center;
+  width: 120px;
+  position: relative;
+  top: 4px;
+  transition: transform 0.3s ease;
+}
+
+.project-name-button:hover {
+  transform: scale(1.1);
+}
+
+.project-name-button.selected {
+  transform: scale(1.15);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.vote-bar {
+  position: relative;
+  background-color: #e0e0e0; /* Background color of the bar */
+  height: 20px; /* Height of the bar */
+  width: 100%; /* Full width */
+  margin-top: 10px; /* Space above the bar */
+  border-radius: 12px; /* Rounded edges for the entire bar */
+  overflow: hidden; /* Ensure the fill bar stays within the boundaries */
+  border: 3px solid black; /* Black border around the bar */
+}
+
+.fill-bar {
+  background: linear-gradient(90deg, #0052FF, #007bff); /* Gradient effect for the fill */
+  height: 100%; /* Full height of the bar */
+  border-radius: 0 10px 10px 0; /* Rounded right side of the fill bar */
+  transition: width 0.5s ease; /* Smooth width transition */
+  animation: fillAnimation 1.5s infinite; /* Add animation */
+}
+
+/* Add this keyframes for animation */
+@keyframes fillAnimation {
+  0% {
+    background-position: 0% 50%; /* Start position */
+  }
+  100% {
+    background-position: 100% 50%; /* End position */
+  }
+}
+
+.votes-inside-bar {
+  position: absolute;
+  right: 10px;
+  top: -1px;
+  color: #333;
+  font-size: 14px;
+}
+
+.vote-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.vote-count-input {
+  width: 50px;
+  padding: 5px;
+  font-size: 16px;
+  font-family: 'CoinbaseSans', sans-serif;
+  text-align: center;
+  border: 3px solid black;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  outline: none;
+}
+
+.vote-button {
+  background-color: #f0f0f0;
+  border: 3px solid black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'CoinbaseSans', sans-serif;
+  transition: background-color 0.3s ease, opacity 0.3s ease; /* Smooth transition for background and opacity */
+}
+
+.vote-button:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+  opacity: 0.5; /* Dim the button when disabled */
+  pointer-events: none; /* Disable pointer events for the button when it is disabled */
+}
+
+.voting-period {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.voting-status {
+  margin-bottom: 30px;
+  margin-top: 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.voting-status.live {
+  color: red; /* Correct color for live voting */
+}
+
+.voting-status.winner {
+  color: green; /* Correct color for winner announcement */
+}
+
+/* Toast notification styles */
+.toast-container {
+  font-family: 'CoinbaseSans', sans-serif !important; /* Use your custom font */
+}
+
+.Toastify__toast {
+  background-color: white !important; /* Background color for the toast */
+  color: black !important; /* Text color */
+  font-family: 'CoinbaseSans', sans-serif !important; /* Ensure font is applied */
+  border-radius: 8px !important; /* Optional: round corners */
+  border: 4px solid black;
+  padding: 10px !important; /* Optional: add some padding */
+  font-size: 16px !important; /* Optional: font size */
+}
+
+.Toastify__toast--success {
+  background-color: white !important; /* Background color for success notifications */
+}
+
+.connect-wallet-button {
+  position: absolute;
+  top: 20px; /* Keep this for distance from the top */
+  right: 40px; /* Increased distance from the right side */
+  background-color: white;
+  color: black;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'CoinbaseSans', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  z-index: 15; /* Ensure the button is above other elements */
+  border: 4px solid black; /* Add this back if needed */
+}
+
+.connect-wallet-button:hover {
+  background-color: #003fbb;
+  color: white;
 }
