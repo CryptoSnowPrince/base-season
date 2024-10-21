@@ -92,7 +92,16 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+}
+
+.header-wrapper {
+  align-items: center;
+  gap: 3px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 600px) {
@@ -660,23 +669,9 @@ h1 {
 }
 
 .connect-wallet-button {
-  position: absolute;
-  top: 20px; /* Keep this for distance from the top */
-  right: 40px; /* Increased distance from the right side */
-  background-color: white;
-  color: black;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  position: sticky;
+  /* position: absolute; */
+  top: 10px; /* Keep this for distance from the top */
   font-family: 'CoinbaseSans', sans-serif;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
   z-index: 15; /* Ensure the button is above other elements */
-  border: 4px solid black; /* Add this back if needed */
-}
-
-.connect-wallet-button:hover {
-  background-color: #003fbb;
-  color: white;
 }
