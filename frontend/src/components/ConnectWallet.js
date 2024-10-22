@@ -23,7 +23,7 @@ const ConnectWallet = ({ tokenBal }) => {
                     (!authenticationStatus ||
                         authenticationStatus === 'authenticated');
                 return (
-                    <div className="connect_btn_wrapper"
+                    <div className="button"
                         {...(!ready && {
                             'aria-hidden': true,
                             'style': {
@@ -36,60 +36,26 @@ const ConnectWallet = ({ tokenBal }) => {
                         {(() => {
                             if (!connected) {
                                 return (
-                                    <button className="connect_btn"
+                                    <button className="connect-wallet-button"
                                         onClick={openConnectModal}
                                     >
-                                        Connect
+                                        connect wallet.
                                     </button>
                                 );
                             }
                             if (chain.unsupported) {
                                 return (
-                                    <button className="connect_btn"
+                                    <button className="connect-wallet-button"
                                         onClick={openChainModal}
                                     >
-                                        Wrong
+                                        Wrong Network
                                     </button>
                                 );
                             }
                             return (
                                 <div style={{ display: 'flex', gap: window.innerWidth > 540 ? 12 : 5 }}>
-                                    <button className="connect_btn"
-                                        onClick={openChainModal}
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            width: window.innerWidth > 540 ? "50px" : "27px",
-                                            borderRadius: 0,
-                                        }}
-                                    >
-                                        {chain.hasIcon && (
-                                            <div
-                                                style={{
-                                                    background: 'white',
-                                                    width: window.innerWidth > 540 ? 36 : 23,
-                                                    height: window.innerWidth > 540 ? 36 : 23,
-                                                    paddingLeft: window.innerWidth > 540 ? 3 : 4,
-                                                    borderRadius: 999,
-                                                    overflow: 'hidden',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    borderColor: 'block'
-                                                }}
-                                            >
-                                                {chain.iconUrl && (
-                                                    <Image
-                                                        alt={chain.name ?? 'Base'}
-                                                        src={chain.iconUrl}
-                                                        width={30}
-                                                        height={30}
-                                                    />
-                                                )}
-                                            </div>
-                                        )}
-                                    </button>
-                                    <button className="connect_btn"
-                                        style={{ width: window.innerWidth > 540 ? "200px" : "195px" }}
+                                    <button className="connect-wallet-button"
+                                        style={{ width: window.innerWidth > 540 ? "200px" : "250px" }}
                                         onClick={() => {
                                             console.log('tokenBal: ', tokenBal)
                                             openAccountModal()

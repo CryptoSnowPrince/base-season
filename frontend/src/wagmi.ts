@@ -74,7 +74,7 @@ export const events = [
     startTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
     endTime: new Date(Date.UTC(2024, 9, 26, 18, 0, 0)),
     items: [32, 33, 34, 35]
-  },
+  }
 ];
 
 export const config = getDefaultConfig({
