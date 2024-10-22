@@ -123,9 +123,22 @@ async function main() {
         // }
 
         const vote7 = {
-            startTime: new Date(Date.UTC(2024, 9, 21, 18, 0, 0)),
-            endTime: new Date(Date.UTC(2024, 9, 22, 18, 0, 0)),
+            title: 'Birb vs Grug vs Brett vs Keycat',
+            startTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
+            endTime: new Date(Date.UTC(2024, 9, 26, 18, 0, 0)),
         }
+
+        const names = vote7.title.split(' vs ').map((name) => name.trim());
+        console.log('names: ', names)
+        tx = await votes.setItems(
+            7,
+            names
+        );
+        await tx.wait();
+
+        console.log(`delaying ${delayTime} ms`)
+        await delay(delayTime)
+        console.log(`delayed`)
 
         console.log('startTime: ', parseInt(vote7.startTime / 1000))
         tx = await votes.setTime(

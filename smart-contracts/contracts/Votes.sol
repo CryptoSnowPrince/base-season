@@ -128,6 +128,18 @@ contract Votes is
         }
     }
 
+    function setItems(
+        uint256 voteId,
+        string[] calldata names
+    ) external onlyOwner {
+        uint256 startItemIdx = items.length;
+        for (uint256 i = 0; i < names.length; i++) {
+            items.push(VoteItem({name: names[i], power: 0}));
+        }
+        votes[voteId].startItemIdx = startItemIdx;
+        votes[voteId].cntItems = names.length;
+    }
+
     function setTime(
         uint256 voteId,
         uint256 flag,
