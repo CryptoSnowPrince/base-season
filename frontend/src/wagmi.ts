@@ -4,7 +4,7 @@ import {
   base,
 } from 'wagmi/chains';
 
-export const MODE = 0; // 0: TEST, 1: MAIN
+export const MODE = 1; // 0: TEST, 1: MAIN
 
 export const chain = MODE ? base : baseSepolia;
 export const voteCA = MODE ? "0x524eDADa8248380FA513e44c06cB8CBd0e65Ae02" : "0x1f00D2128b7a8bE59faA6d018D0BF4622eD45c1f";
@@ -22,57 +22,57 @@ export const events = [
   {
     title: 'Toshi vs Mochi vs Floppa vs Miggles',
     image: '/images/group1.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 1, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 2, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 22, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 23, 18, 0, 0)),
     items: [0, 1, 2, 3]
   },
   {
     title: 'Doginme vs Benji vs Boge vs Ski',
     image: '/images/group2.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 5, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 6, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 22, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 23, 18, 0, 0)),
     items: [4, 5, 6, 7]
   },
   {
     title: 'Crash vs Chomp vs MABA vs Toby',
     image: '/images/group3.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 8, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 9, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 23, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 24, 18, 0, 0)),
     items: [8, 9, 10, 11]
   },
   {
     title: 'Bepe vs Doomer vs Weirdo vs Normie',
     image: '/images/group4.jpg',
-    startTime: new Date(Date.UTC(2024, 10, 11, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 11, 11, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 23, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 24, 18, 0, 0)),
     items: [12, 13, 14, 15]
   },
   {
     title: 'Mfer vs Degen vs Chad vs Bario',
     image: '/images/group5.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 15, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 10, 15, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 24, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
     items: [16, 17, 18, 19]
   },
   {
     title: 'Okayeg vs Roost vs Caw vs Boda',
     image: '/images/group6.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 15, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 16, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 24, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
     items: [20, 21, 22, 23]
   },
   {
     title: 'TYBG vs CTO vs Higher vs Chuck',
     image: '/images/group7.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 15, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 16, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 26, 18, 0, 0)),
     items: [24, 25, 26, 27]
   },
   {
     title: 'Birb vs Grug vs Brett vs Keycat',
     image: '/images/group8.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 15, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 16, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 26, 18, 0, 0)),
     items: [28, 29, 30, 31]
   },
 ];
