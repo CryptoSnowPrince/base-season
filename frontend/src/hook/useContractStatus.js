@@ -5,10 +5,10 @@ import multicallABI from "../assets/abi/multicall.json";
 import { useAccount, useConfig } from "wagmi";
 import { multicall } from '@wagmi/core'
 import { formatUnits } from "viem";
-import { REFETCH_INTERVAL, events, multicallCA, tokenCA, voteCA } from "../wagmi";
+import { ETH_DECIMALS, REFETCH_INTERVAL, TOKEN_DECIMALS, events, multicallCA, tokenCA, voteCA } from "../wagmi";
 
 export function useContractStatus(refresh, id) {
-  const [data, setData] = useState({
+  const [onchainData, setOnchainData] = useState({
     projects: [],
     votes: [],
     tokenBal: 0,
@@ -74,13 +74,13 @@ export function useContractStatus(refresh, id) {
         const votes = []
         for (let idx = 0; idx < length; idx++) {
           projects.push(_d[idx].status === "success" ? _d[idx].result[0] : '')
-          votes.push(_d[idx].status === "success" ? parseFloat(formatUnits(_d[idx].result[1], 18)) : 0)
+          votes.push(_d[idx].status === "success" ? parseFloat(formatUnits(_d[idx].result[1], TOKEN_DECIMALS)) : 0)
         }
-        const tokenBal = account?.address && _d[length].status === "success" ? parseFloat(formatUnits(_d[length].result, 18)) : 0;
-        const tokenAllowance = account?.address && _d[length + 1].status === "success" ? parseFloat(formatUnits(_d[length + 1].result, 18)) : 0;
-        const ethBal = account?.address && _d[length + 2].status === "success" ? parseFloat(formatUnits(_d[length + 2].result, 18)) : 0;
+        const tokenBal = account?.address && _d[length].status === "success" ? parseFloat(formatUnits(_d[length].result, TOKEN_DECIMALS)) : 0;
+        const tokenAllowance = account?.address && _d[length + 1].status === "success" ? parseFloat(formatUnits(_d[length + 1].result, TOKEN_DECIMALS)) : 0;
+        const ethBal = account?.address && _d[length + 2].status === "success" ? parseFloat(formatUnits(_d[length + 2].result, ETH_DECIMALS)) : 0;
 
-        setData({
+        setOnchainData({
           projects,
           votes,
           tokenBal,
@@ -94,5 +94,5 @@ export function useContractStatus(refresh, id) {
     fetchData();
   }, [account.address, refetch, refresh, id, config])
 
-  return data
+  return onchainData
 }

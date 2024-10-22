@@ -6,8 +6,17 @@ import { FaSpinner } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import backgroundImage from '../assets/background.png'; // Import the background image
-import { events } from '../wagmi';
+import { chain, events, MAX_UINT256, MIN_ETH, TOKEN_DECIMALS, tokenCA, voteCA } from '../wagmi';
 import { useContractStatus } from '../hook/useContractStatus';
+import { useAccount, useConfig } from 'wagmi';
+import { encodeFunctionData, parseUnits } from 'viem';
+import {
+  estimateGas,
+  writeContract,
+  waitForTransactionReceipt,
+} from "@wagmi/core";
+import voteABI from "../assets/abi/vote.json";
+import erc20ABI from "../assets/abi/erc20.json";
 
 const TOTAL_NFTS = 100; // The total number of NFT slots
 
@@ -17,8 +26,10 @@ const Modal = (props) => {
     show,
     onClose,
     onVote,
+    voteId,
     projects,
     votes,
+    pending,
     selectedProject,
     setSelectedProject,
     voteCount,
@@ -133,7 +144,7 @@ const Modal = (props) => {
             <button
               className="vote-button"
               onClick={onVote}
-              disabled={!isVotingLive || !selectedProject || voteCount <= 0}
+              disabled={pending || !isVotingLive || !selectedProject || voteCount <= 0}
             >
               Vote
             </button>
@@ -145,10 +156,15 @@ const Modal = (props) => {
 };
 
 const Home = () => {
+  const account = useAccount();
+  const config = useConfig();
+
   const [refresh, setRefresh] = useState(false);
   const [voteId, setVoteId] = useState(0);
 
-  const data = useContractStatus(refresh, voteId)
+  const onchainData = useContractStatus(refresh, voteId)
+
+  const [pending, setPending] = useState(false);
 
   const nftWallRef = useRef(null);
   const [nfts, setNfts] = useState([]);
@@ -177,14 +193,14 @@ const Home = () => {
       setIsVotingLive(true);
       setEventStatus('voting live.. 🔴');
     } else if (currentTime > currentEvent.endTime) {
-      const maxVotes = Math.max(...data?.votes);
-      const winnerIndex = data?.votes.indexOf(maxVotes);
+      const maxVotes = Math.max(...onchainData?.votes);
+      const winnerIndex = onchainData?.votes.indexOf(maxVotes);
       if (maxVotes > 0) {
-        setWinner(data?.projects[winnerIndex]);
-        setEventStatus(`${data?.projects[winnerIndex]} wins! 🏆`);
+        setWinner(onchainData?.projects[winnerIndex]);
+        setEventStatus(`${onchainData?.projects[winnerIndex]} wins! 🏆`);
       } else {
-        setWinner(data?.projects[0]); // First project wins if no votes
-        setEventStatus(`${data?.projects[0]} wins! 🏆`);
+        setWinner(onchainData?.projects[0]); // First project wins if no votes
+        setEventStatus(`${onchainData?.projects[0]} wins! 🏆`);
       }
       setIsVotingLive(false);
     } else {
@@ -262,7 +278,7 @@ const Home = () => {
 
   useEffect(() => {
     checkVotingStatus();
-  }, [data.projects, data.votes]);
+  }, [onchainData.projects, onchainData.votes]);
 
   const handleSlotClick = (index) => {
     if (mintedSlots.has(index)) {
@@ -293,16 +309,117 @@ const Home = () => {
     setShowModal(true);
   };
 
-  const handleVote = () => {
-    const projectIndex = data?.projects.indexOf(selectedProject);
+  const handleVote = async () => {
+    const projectIndex = onchainData?.projects.indexOf(selectedProject);
     if (projectIndex !== -1) {
-      setVotes((prevVotes) => {
-        const updatedVotes = [...prevVotes];
-        updatedVotes[projectIndex] += voteCount;
-        return updatedVotes;
-      });
-      toast.success(`Vote for ${selectedProject} succeeded!`);
+      if (!account.isConnected || !account.address || !account.connector) {
+        toast.warn("Please connect wallet!");
+        return;
+      }
+      if (account.chainId !== chain.id) {
+        toast.warn("Wrong Network, Please switch to Base Mainnet!");
+        return;
+      }
+      if (pending) {
+        toast.warn("Please wait for pending...");
+        return;
+      }
+      if (onchainData?.ethBal < MIN_ETH) {
+        toast.warn('Insufficient ETH for gas fee.')
+        return
+      }
+      if (onchainData?.tokenBal < voteCount) {
+        toast.warn('Insufficient BSE for voting.')
+        return
+      }
+      setPending(true)
+      try {
+        let flag = true
+        let data = {}
+        let encodedData;
+        let txHash;
+        let txPendingData;
+        let txData;
+        if (onchainData?.tokenAllowance < voteCount) {
+          data = {
+            address: tokenCA,
+            abi: erc20ABI,
+            functionName: "approve",
+            args: [voteCA, MAX_UINT256],
+            value: 0,
+          };
+          encodedData = encodeFunctionData(data);
+          await estimateGas(config, {
+            ...account,
+            data: encodedData,
+            to: data.address,
+            value: data.value,
+          });
+          txHash = await writeContract(config, {
+            ...account,
+            ...data,
+          });
+          txPendingData = waitForTransactionReceipt(config, {
+            hash: txHash,
+          });
+          toast.promise(
+            txPendingData,
+            {
+              pending: "Waiting for pending... 👌",
+            }
+          );
+          txData = await txPendingData;
+          if (txData && txData.status === "success") {
+            toast.success(`Successfully enabled token! 👍`);
+          } else {
+            toast.error("Error! Transaction is failed.");
+            flag = false
+          }
+        }
+
+        if (flag) {
+          data = {
+            address: voteCA,
+            abi: voteABI,
+            functionName: "vote",
+            args: [voteId, [events[voteId].items[projectIndex]], [parseUnits(voteCount.toString(), TOKEN_DECIMALS)]],
+            value: 0,
+          };
+          encodedData = encodeFunctionData(data);
+          await estimateGas(config, {
+            ...account,
+            data: encodedData,
+            to: data.address,
+          });
+          txHash = await writeContract(config, {
+            ...account,
+            ...data,
+          });
+
+          txPendingData = waitForTransactionReceipt(config, {
+            hash: txHash,
+          });
+          toast.promise(
+            txPendingData,
+            {
+              pending: "Waiting for pending... 👌",
+            }
+          );
+
+          txData = await txPendingData;
+          if (txData && txData.status === "success") {
+            toast.success(`Vote for ${selectedProject} succeeded! 👍`);
+          } else {
+            toast.error("Error! Transaction is failed.");
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Error! Something went wrong.");
+      }
+      setRefresh(!refresh)
       setLastVotedProject(selectedProject);
+      setPending(false)
     }
     setSelectedProject(null);
     setVoteCount(1);
@@ -424,8 +541,10 @@ const Home = () => {
         show={showModal}
         onClose={() => setShowModal(false)}
         onVote={handleVote}
-        projects={data?.projects}
-        votes={data?.votes}
+        voteId={voteId}
+        projects={onchainData?.projects}
+        votes={onchainData?.votes}
+        pending={pending}
         selectedProject={selectedProject}
         setSelectedProject={setSelectedProject}
         voteCount={voteCount}
