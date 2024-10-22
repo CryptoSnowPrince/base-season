@@ -71,8 +71,8 @@ export const events = [
   {
     title: 'Birb vs Grug vs Brett vs Keycat',
     image: '/images/group8.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 26, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 9, 21, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 22, 18, 0, 0)),
     items: [28, 29, 30, 31]
   },
 ];

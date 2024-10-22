@@ -128,6 +128,18 @@ contract Votes is
         }
     }
 
+    function setTime(
+        uint256 voteId,
+        uint256 flag,
+        uint256 time
+    ) external onlyOwner {
+        if (flag == 0) {
+            votes[voteId].startTime = time;
+        } else if (flag == 1) {
+            votes[voteId].endTime = time;
+        }
+    }
+
     function setDead(address _dead) external onlyOwner {
         dead = _dead;
     }
