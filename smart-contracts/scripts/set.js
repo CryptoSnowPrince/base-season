@@ -117,7 +117,7 @@ async function main() {
         //         names
         //     );
         //     await tx.wait();
-        //     console.log(`delaying ${delayTime}ms`)
+        //     console.log(`delaying ${delayTime} ms`)
         //     await delay(delayTime)
         //     console.log(`delayed`)
         // }
@@ -135,7 +135,7 @@ async function main() {
         );
         await tx.wait();
 
-        console.log(`delaying ${delayTime}ms`)
+        console.log(`delaying ${delayTime} ms`)
         await delay(delayTime)
         console.log(`delayed`)
 
