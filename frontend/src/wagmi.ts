@@ -7,10 +7,12 @@ import {
 export const MODE = 0; // 0: TEST, 1: MAIN
 
 export const chain = MODE ? base : baseSepolia;
-export const voteCA = MODE ? "" : "0x1f00D2128b7a8bE59faA6d018D0BF4622eD45c1f";
+export const voteCA = MODE ? "0x524eDADa8248380FA513e44c06cB8CBd0e65Ae02" : "0x1f00D2128b7a8bE59faA6d018D0BF4622eD45c1f";
 export const tokenCA = MODE ? "0xb0492857994e2Af4aD0fa41D10BD711d4534f768" : "0x531A412CC29b76CeF128Ad0d5F69aE63d53B3450";
+export const multicallCA = '0xcA11bde05977b3631167028862bE2a173976CA11';
 
 export const REFETCH_INTERVAL = 10000;
+export const MIN_ETH = 0.001;
 export const MAX_UINT256 = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
 export const MAX_UINT256_HALF = '65792089237316195423570985008687907853269984665640564039457584007913129639935';
 
@@ -39,15 +41,15 @@ export const events = [
   {
     title: 'Bepe vs Doomer vs Weirdo vs Normie',
     image: '/images/group4.jpg',
-    startTime: new Date(Date.UTC(2024, 9, 11, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 12, 18, 0, 0)),
+    startTime: new Date(Date.UTC(2024, 10, 11, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 11, 11, 18, 0, 0)),
     items: [12, 13, 14, 15]
   },
   {
     title: 'Mfer vs Degen vs Chad vs Bario',
     image: '/images/group5.jpg',
     startTime: new Date(Date.UTC(2024, 9, 15, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 16, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 10, 15, 18, 0, 0)),
     items: [16, 17, 18, 19]
   },
   {
