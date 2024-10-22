@@ -114,7 +114,7 @@ contract Votes is
             require(itemIds[i] >= startIdx, "Invalid Item Id");
             require(itemIds[i] < endIdx, "Invalid Item Id");
             require(
-                powers[i] > votes[voteId].minPower,
+                powers[i] >= votes[voteId].minPower,
                 "Voting power should be greater than minimum power"
             );
             IERC20(votes[voteId].token).safeTransferFrom(
