@@ -455,6 +455,37 @@ h1 {
   transition: transform 0.2s ease;
 }
 
+/* Carousel button styles */
+.connect_btn_wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.connect_btn_wrapper button {
+  background-color: #0052FF;
+  color: white;
+  font-family: 'CoinbaseSans', sans-serif;
+  border: 2px solid black;
+  padding: 5px 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.connect_btn_wrapper button:hover {
+  background-color: #003fbb;
+  transform: scale(1.05);
+}
+
+/* Button press effect */
+.connect_btn_wrapper button:active {
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
+
 /* Modal styles with smooth fade-in and fade-out animations */
 .modal-overlay {
   position: fixed;

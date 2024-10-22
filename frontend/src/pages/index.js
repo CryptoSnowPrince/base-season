@@ -1,7 +1,7 @@
 "use client"
 import React, { useRef, useState, useEffect } from 'react';
 import Head from 'next/head';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+// import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { FaSpinner } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,6 +17,7 @@ import {
 } from "@wagmi/core";
 import voteABI from "../assets/abi/vote.json";
 import erc20ABI from "../assets/abi/erc20.json";
+import ConnectWallet from '../components/ConnectWallet';
 
 const TOTAL_NFTS = 100; // The total number of NFT slots
 
@@ -441,7 +442,8 @@ const Home = () => {
       <div className="center-box-wrapper">
         <div className="text-wrapper">
           <div className='header-wrapper'>
-            <ConnectButton />
+            {/* <ConnectButton /> */}
+            <ConnectWallet tokenBal={onchainData?.tokenBal} />
             <h1>Base Season.</h1>
           </div>
 
