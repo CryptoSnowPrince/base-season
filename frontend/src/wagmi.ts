@@ -37,7 +37,7 @@ export const events = [
     title: 'Crash vs Chomp vs MABA vs Toby',
     image: '/images/group3.jpg',
     startTime: new Date(Date.UTC(2024, 9, 8, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 10, 9, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 9, 18, 0, 0)),
     items: [8, 9, 10, 11]
   },
   {
