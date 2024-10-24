@@ -434,7 +434,7 @@ const Home = () => {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<meta name='theme-color' content='#000000' />
 				<meta name='description' content="It's base season. always." />
-				<link rel='apple-touch-icon' href='%PUBLIC_URL%/logo192.png' />
+				<link rel='apple-touch-icon' href='/favicon.ico' />
 				<link rel='manifest' href='%PUBLIC_URL%/manifest.json' />
 
 				<meta property='og:title' content='base season.' />
