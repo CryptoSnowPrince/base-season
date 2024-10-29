@@ -74,7 +74,21 @@ export const events = [
     startTime: new Date(Date.UTC(2024, 9, 25, 18, 0, 0)),
     endTime: new Date(Date.UTC(2024, 9, 26, 18, 0, 0)),
     items: [32, 33, 34, 35]
-  }
+  },
+  {
+    title: 'Doomer vs Toby vs Toshi vs Boge',
+    image: '/images/group9.jpg',
+    startTime: new Date(Date.UTC(2024, 9, 29, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
+    items: [36, 37, 38, 39]
+  },
+  {
+    title: 'Higher vs Roost vs Brett vs Bario',
+    image: '/images/group10.jpg',
+    startTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 9, 31, 18, 0, 0)),
+    items: [40, 41, 42, 43]
+  },
 ];
 
 export const config = getDefaultConfig({

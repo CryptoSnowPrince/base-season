@@ -46,7 +46,7 @@ module.exports = {
       // },
     ]
   },
-  defaultNetwork: "baseSepolia",
+  defaultNetwork: "base",
   networks: {
     baseSepolia: {
       url: config.RPC_BASE_SEPOLIA,
