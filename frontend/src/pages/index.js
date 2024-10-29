@@ -27,7 +27,6 @@ const Modal = (props) => {
     show,
     onClose,
     onVote,
-    voteId,
     projects,
     votes,
     pending,
@@ -193,6 +192,7 @@ const Home = () => {
     if (currentTime >= currentEvent.startTime && currentTime <= currentEvent.endTime) {
       setIsVotingLive(true);
       setEventStatus('voting live.. 🔴');
+      setWinner(null);
     } else if (currentTime > currentEvent.endTime) {
       const maxVotes = Math.max(...onchainData?.votes);
       const winnerIndex = onchainData?.votes.indexOf(maxVotes);
@@ -207,6 +207,7 @@ const Home = () => {
     } else {
       setIsVotingLive(false);
       setEventStatus('coming up...');
+      setWinner(null);
     }
   };
 
@@ -383,7 +384,7 @@ const Home = () => {
             address: voteCA,
             abi: voteABI,
             functionName: "vote",
-            args: [voteId, [events[voteId].items[projectIndex]], [parseUnits(voteCount.toString(), TOKEN_DECIMALS)]],
+            args: [voteId + 8, [events[voteId].items[projectIndex]], [parseUnits(voteCount.toString(), TOKEN_DECIMALS)]],
             value: 0,
           };
           encodedData = encodeFunctionData(data);
@@ -427,168 +428,164 @@ const Home = () => {
   };
 
   return (
-		<div className='container' style={{ backgroundImage: `url(${backgroundImage})` }}>
-			<Head>
-				<meta charset='utf-8' />
-				<link rel="icon" href="/favicon.ico" />
-				<meta name='viewport' content='width=device-width, initial-scale=1' />
-				<meta name='theme-color' content='#000000' />
-				<meta name='description' content="It's base season. always." />
-				<link rel='apple-touch-icon' href='/favicon.ico' />
-				<link rel='manifest' href='%PUBLIC_URL%/manifest.json' />
+    <div className='container' style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <Head>
+        <meta charset='utf-8' />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta name='theme-color' content='#000000' />
+        <meta name='description' content="It's base season. always." />
+        <link rel='apple-touch-icon' href='/favicon.ico' />
+        <link rel='manifest' href='%PUBLIC_URL%/manifest.json' />
 
-				<meta property='og:title' content='base season.' />
-				<meta
-					property='og:description'
-					content="it's base season. always. join the event and lock in for the tournament."
-				/>
-				<meta property='og:image' content='%PUBLIC_URL%/photo_2024-10-02_13-37-23.jpg' />
-				<meta property='og:image:width' content='1280' />
-				<meta property='og:image:height' content='426' />
-				<meta property='og:url' content='https://baseseason.io' />
-				<meta property='og:type' content='website' />
+        <meta property='og:title' content='base season.' />
+        <meta
+          property='og:description'
+          content="it's base season. always. join the event and lock in for the tournament."
+        />
+        <meta property='og:image' content='%PUBLIC_URL%/photo_2024-10-02_13-37-23.jpg' />
+        <meta property='og:image:width' content='1280' />
+        <meta property='og:image:height' content='426' />
+        <meta property='og:url' content='https://baseseason.io' />
+        <meta property='og:type' content='website' />
 
-				<meta name='twitter:card' content='summary_large_image' />
-				<meta name='twitter:title' content='base season.' />
-				<meta
-					name='twitter:description'
-					content="it's base season. always. join the event and lock in for the tournament."
-				/>
-				<meta name='twitter:image' content='%PUBLIC_URL%/photo_2024-10-02_13-37-23.jpg' />
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:title' content='base season.' />
+        <meta
+          name='twitter:description'
+          content="it's base season. always. join the event and lock in for the tournament."
+        />
+        <meta name='twitter:image' content='%PUBLIC_URL%/photo_2024-10-02_13-37-23.jpg' />
 
-				<title>base season.</title>
-			</Head>
-			{/* <ConnectButton /> */}
-			<ConnectWallet tokenBal={onchainData?.tokenBal} />
-			<ToastContainer />
-			{/* <button className="connect-wallet-button" onClick={connectWallet}>
+        <title>base season.</title>
+      </Head>
+      {/* <ConnectButton /> */}
+      <ConnectWallet tokenBal={onchainData?.tokenBal} />
+      <ToastContainer />
+      {/* <button className="connect-wallet-button" onClick={connectWallet}>
         {connectedWallet ? `Connected: ${connectedWallet.slice(0, 6)}...${connectedWallet.slice(-4)}` : 'Connect Wallet'}
         </button> */}
 
-			<div className='center-box-wrapper'>
-				<div className='text-wrapper'>
-					<div className='header-wrapper'>
-						<h1>Base Season.</h1>
-					</div>
+      <div className='center-box-wrapper'>
+        <div className='text-wrapper'>
+          <div className='header-wrapper'>
+            <h1>Base Season.</h1>
+          </div>
 
-					<div className='timer'>
-						<div className='timer-boxes'>
-							<div className='timer-box'>
-								<div className='time'>{remainingTime?.days}</div>
-								<div className='label'>days</div>
-							</div>
-							<div className='timer-box'>
-								<div className='time'>{remainingTime?.hours}</div>
-								<div className='label'>hours</div>
-							</div>
-							<div className='timer-box'>
-								<div className='time'>{remainingTime?.minutes}</div>
-								<div className='label'>minutes</div>
-							</div>
-							<div className='timer-box'>
-								<div className='time'>{remainingTime?.seconds}</div>
-								<div className='label'>seconds</div>
-							</div>
-						</div>
-						<button className='greyed-out-button' disabled>
-							Tournament underway...
-						</button>
-					</div>
+          <div className='timer'>
+            <div className='timer-boxes'>
+              <div className='timer-box'>
+                <div className='time'>{remainingTime?.days}</div>
+                <div className='label'>days</div>
+              </div>
+              <div className='timer-box'>
+                <div className='time'>{remainingTime?.hours}</div>
+                <div className='label'>hours</div>
+              </div>
+              <div className='timer-box'>
+                <div className='time'>{remainingTime?.minutes}</div>
+                <div className='label'>minutes</div>
+              </div>
+              <div className='timer-box'>
+                <div className='time'>{remainingTime?.seconds}</div>
+                <div className='label'>seconds</div>
+              </div>
+            </div>
+            <button className='greyed-out-button' disabled>
+              Tournament underway...
+            </button>
+          </div>
 
-					{/* Dynamic Event Title and Status */}
-					<div className={`event-previews`}>
-						<div className={`event-preview ${animationDirection}`}>
-							<img
-								className='event-image'
-								src={events[voteId].image}
-								alt='Event Image'
-								onClick={() =>
-									openVoteModal(events[voteId].title, events[voteId].image)
-								}
-							/>
-							<h2 className='event-title'>{events[voteId].title}</h2>
-							<p
-								className={`event-status ${
-									isVotingLive ? 'live' : winner ? 'winner' : ''
-								}`}>
-								{isVotingLive ? (
-									<span>
-										Voting live... <span className='fading-dot'>🔴</span>
-									</span>
-								) : eventStatus === 'Drawing...' ? (
-									<span>
-										<FaSpinner className='loading-spin' />
-									</span>
-								) : (
-									eventStatus
-								)}
-							</p>
-						</div>
-					</div>
+          {/* Dynamic Event Title and Status */}
+          <div className={`event-previews`}>
+            <div className={`event-preview ${animationDirection}`}>
+              <img
+                className='event-image'
+                src={events[voteId].image}
+                alt='Event Image'
+                onClick={() =>
+                  openVoteModal(events[voteId].title, events[voteId].image)
+                }
+              />
+              <h2 className='event-title'>{events[voteId].title}</h2>
+              <p
+                className={`event-status ${isVotingLive ? 'live' : winner ? 'winner' : ''
+                  }`}>
+                {isVotingLive ? (
+                  <span>
+                    Voting live... <span className='fading-dot'>🔴</span>
+                  </span>
+                ) : eventStatus === 'Drawing...' ? (
+                  <span>
+                    <FaSpinner className='loading-spin' />
+                  </span>
+                ) : (
+                  eventStatus
+                )}
+              </p>
+            </div>
+          </div>
 
-					{/* Carousel Navigation */}
-					<div className='carousel-controls'>
-						<button onClick={handlePrevEvent}>⬅️ Previous</button>
-						<button onClick={handleNextEvent}>Next ➡️</button>
-					</div>
-				</div>
-			</div>
+          {/* Carousel Navigation */}
+          <div className='carousel-controls'>
+            <button onClick={handlePrevEvent}>⬅️ Previous</button>
+            <button onClick={handleNextEvent}>Next ➡️</button>
+          </div>
+        </div>
+      </div>
 
-			<div className='nft-wall-wrapper'>
-				<div className='nft-wall-container'>
-					<div ref={nftWallRef} className='nft-wall'>
-						{nfts.map((nft, index) => {
-							const isMinted = mintedSlots.has(index);
-							const isWhiteBackground =
-								(Math.floor(index / 10) + (index % 10)) % 2 === 0; // Change to 10 for 10x10 grid
+      <div className='nft-wall-wrapper'>
+        <div className='nft-wall-container'>
+          <div ref={nftWallRef} className='nft-wall'>
+            {nfts.map((nft, index) => {
+              const isMinted = mintedSlots.has(index);
+              const isWhiteBackground =
+                (Math.floor(index / 10) + (index % 10)) % 2 === 0; // Change to 10 for 10x10 grid
 
-							return (
-								<div
-									key={index}
-									className={`nft-item ${isMinted ? 'minted' : 'unfilled'} ${
-										selectedSlot === index ? 'selected' : ''
-									}`}
-									onClick={() => handleSlotClick(index)}
-									style={{ cursor: isMinted ? 'not-allowed' : 'pointer' }}>
-									{isMinted ? (
-										<img src={nft.tokenURI} alt={`NFT ${nft.tokenId}`} />
-									) : (
-										<div
-											className={`placeholder-text ${
-												isWhiteBackground
-													? 'white-background'
-													: 'blue-background'
-											}`}>
-											bse.
-										</div>
-									)}
-								</div>
-							);
-						})}
-					</div>
-				</div>
-			</div>
+              return (
+                <div
+                  key={index}
+                  className={`nft-item ${isMinted ? 'minted' : 'unfilled'} ${selectedSlot === index ? 'selected' : ''
+                    }`}
+                  onClick={() => handleSlotClick(index)}
+                  style={{ cursor: isMinted ? 'not-allowed' : 'pointer' }}>
+                  {isMinted ? (
+                    <img src={nft.tokenURI} alt={`NFT ${nft.tokenId}`} />
+                  ) : (
+                    <div
+                      className={`placeholder-text ${isWhiteBackground
+                        ? 'white-background'
+                        : 'blue-background'
+                        }`}>
+                      bse.
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
-			<Modal
-				show={showModal}
-				onClose={() => setShowModal(false)}
-				onVote={handleVote}
-				voteId={voteId}
-				projects={onchainData?.projects}
-				votes={onchainData?.votes}
-				pending={pending}
-				selectedProject={selectedProject}
-				setSelectedProject={setSelectedProject}
-				voteCount={voteCount}
-				setVoteCount={setVoteCount}
-				isVotingLive={isVotingLive}
-				eventTitle={eventTitle}
-				eventImage={eventImage}
-				winner={winner}
-				startTime={events[voteId].startTime}
-				endTime={events[voteId].endTime}
-			/>
-		</div>
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onVote={handleVote}
+        projects={onchainData?.projects}
+        votes={onchainData?.votes}
+        pending={pending}
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
+        voteCount={voteCount}
+        setVoteCount={setVoteCount}
+        isVotingLive={isVotingLive}
+        eventTitle={eventTitle}
+        eventImage={eventImage}
+        winner={winner}
+        startTime={events[voteId].startTime}
+        endTime={events[voteId].endTime}
+      />
+    </div>
   );
 };
 
