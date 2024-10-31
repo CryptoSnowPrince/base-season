@@ -86,7 +86,7 @@ export const events = [
     title: 'Higher vs Roost vs Brett vs Bario',
     image: '/images/group10.jpg',
     startTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
-    endTime: new Date(Date.UTC(2024, 9, 31, 18, 0, 0)),
+    endTime: new Date(Date.UTC(2024, 10, 1, 18, 0, 0)),
     items: [40, 41, 42, 43]
   },
 ];
