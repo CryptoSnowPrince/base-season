@@ -94,47 +94,47 @@ async function main() {
             //         endTime: new Date(Date.UTC(2024, 9, 26, 18, 0, 0)),
             //         items: [28, 29, 30, 31]
             //     },
-            {
-                title: 'Doomer vs Toby vs Toshi vs Boge',
-                image: '/images/group9.jpg',
-                startTime: new Date(Date.UTC(2024, 9, 29, 18, 0, 0)),
-                endTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
-                items: [36, 37, 38, 39]
-            },
-            {
-                title: 'Higher vs Roost vs Brett vs Bario',
-                image: '/images/group10.jpg',
-                startTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
-                endTime: new Date(Date.UTC(2024, 9, 31, 18, 0, 0)),
-                items: [40, 41, 42, 43]
-            },
+            // {
+            //     title: 'Doomer vs Toby vs Toshi vs Boge',
+            //     image: '/images/group9.jpg',
+            //     startTime: new Date(Date.UTC(2024, 9, 29, 18, 0, 0)),
+            //     endTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
+            //     items: [36, 37, 38, 39]
+            // },
+            // {
+            //     title: 'Higher vs Roost vs Brett vs Bario',
+            //     image: '/images/group10.jpg',
+            //     startTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
+            //     endTime: new Date(Date.UTC(2024, 9, 31, 18, 0, 0)),
+            //     items: [40, 41, 42, 43]
+            // },
         ]
 
         let tx;
-        for (let idx = 0; idx < events.length; idx++) {
-            console.log(`===========${idx}===========`)
-            const names = events[idx].title.split(' vs ').map((name) => name.trim());
-            console.log('title: ', events[idx].title)
-            console.log('imageURI: ', events[idx].image)
-            console.log('token: ', tokenCA)
-            console.log('minPower: ', hre.ethers.parseUnits('1', 18))
-            console.log('startTime: ', parseInt(events[idx].startTime / 1000))
-            console.log('endTime: ', parseInt(events[idx].endTime / 1000))
-            console.log('names: ', names)
-            tx = await votes.createVote(
-                events[idx].title,
-                events[idx].image,
-                tokenCA,
-                hre.ethers.parseUnits('1', 18),
-                parseInt(events[idx].startTime / 1000),
-                parseInt(events[idx].endTime / 1000),
-                names
-            );
-            await tx.wait();
-            console.log(`delaying ${delayTime} ms`)
-            await delay(delayTime)
-            console.log(`delayed`)
-        }
+        // for (let idx = 0; idx < events.length; idx++) {
+        //     console.log(`===========${idx}===========`)
+        //     const names = events[idx].title.split(' vs ').map((name) => name.trim());
+        //     console.log('title: ', events[idx].title)
+        //     console.log('imageURI: ', events[idx].image)
+        //     console.log('token: ', tokenCA)
+        //     console.log('minPower: ', hre.ethers.parseUnits('1', 18))
+        //     console.log('startTime: ', parseInt(events[idx].startTime / 1000))
+        //     console.log('endTime: ', parseInt(events[idx].endTime / 1000))
+        //     console.log('names: ', names)
+        //     tx = await votes.createVote(
+        //         events[idx].title,
+        //         events[idx].image,
+        //         tokenCA,
+        //         hre.ethers.parseUnits('1', 18),
+        //         parseInt(events[idx].startTime / 1000),
+        //         parseInt(events[idx].endTime / 1000),
+        //         names
+        //     );
+        //     await tx.wait();
+        //     console.log(`delaying ${delayTime} ms`)
+        //     await delay(delayTime)
+        //     console.log(`delayed`)
+        // }
 
         // const vote7 = {
         //     title: 'Birb vs Grug vs Brett vs Keycat',
@@ -173,6 +173,22 @@ async function main() {
         //     parseInt(vote7.endTime / 1000)
         // );
         // await tx.wait();
+
+        const vote9 = {
+            title: 'Higher vs Roost vs Brett vs Bario',
+            image: '/images/group10.jpg',
+            startTime: new Date(Date.UTC(2024, 9, 30, 18, 0, 0)),
+            endTime: new Date(Date.UTC(2024, 10, 1, 18, 0, 0)),
+            items: [40, 41, 42, 43]
+        }
+
+        console.log('endTime: ', parseInt(vote9.endTime / 1000))
+        tx = await votes.setTime(
+            9,
+            1,
+            parseInt(vote9.endTime / 1000)
+        );
+        await tx.wait();
 
         console.log('config OK')
     } catch (error) {
