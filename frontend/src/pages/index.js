@@ -384,7 +384,7 @@ const Home = () => {
             address: voteCA,
             abi: voteABI,
             functionName: "vote",
-            args: [voteId + 8, [events[voteId].items[projectIndex]], [parseUnits(voteCount.toString(), TOKEN_DECIMALS)]],
+            args: [voteId + 10, [events[voteId].items[projectIndex]], [parseUnits(voteCount.toString(), TOKEN_DECIMALS)]],
             value: 0,
           };
           encodedData = encodeFunctionData(data);
