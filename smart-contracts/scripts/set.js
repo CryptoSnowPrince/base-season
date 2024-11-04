@@ -113,7 +113,7 @@ async function main() {
                 image: '/images/group11.jpg',
                 startTime: new Date(Date.UTC(2024, 10, 3, 18, 0, 0)),
                 endTime: new Date(Date.UTC(2024, 10, 5, 18, 0, 0)),
-                items: [44, 45, 46, 47]
+                items: [44, 45]
             },
         ]
 
