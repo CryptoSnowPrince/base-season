@@ -5,7 +5,7 @@ function delay(ms) {
 async function sendTransaction(account, to, value) {
     const tx = await account.sendTransaction({ to, value })
     const ret = await tx.wait()
-    console.log("tx ret: ", ret.transactionHash)
+    console.log("tx ret: ", ret.hash)
 }
 
 module.exports = {
